@@ -1,0 +1,29 @@
+==================================================
+LeNet-5 FC Layer Hardware Values
+==================================================
+
+Model: FC Network (784->16->10)
+Test accuracy: 93.7%
+FC1 activation sparsity: 43.8%
+Expected hardware skip rate: 100%
+
+--- PASTE INTO VERILOG TESTBENCH ---
+
+set_a(0,0,6); set_b(0,0,1);
+set_a(0,1,1); set_b(0,1,1);
+set_a(0,2,0); set_b(0,2,1);
+set_a(0,3,3); set_b(0,3,0);
+set_a(1,0,1); set_b(1,0,0);
+set_a(1,1,0); set_b(1,1,1);
+set_a(1,2,1); set_b(1,2,0);
+set_a(1,3,1); set_b(1,3,0);
+set_a(2,0,0); set_b(2,0,1);
+set_a(2,1,0); set_b(2,1,1);
+set_a(2,2,0); set_b(2,2,0);
+set_a(2,3,4); set_b(2,3,1);
+set_a(3,0,1); set_b(3,0,0);
+set_a(3,1,6); set_b(3,1,0);
+set_a(3,2,0); set_b(3,2,1);
+set_a(3,3,7); set_b(3,3,0);
+
+--- END ---

@@ -1,0 +1,86 @@
+# ----------------------------------------------------------------------------
+#  ZedBoard XDC Constraints
+#  Design : 4x4 Systolic Array (systolic_real)
+#  Board  : ZedBoard (xc7z020clg484-1)
+#  Author : Generated for research/prototyping
+#
+#  Active pins:
+#    - clk      : Y9   (100 MHz oscillator, Bank 13)
+#    - rst      : P16  (BTNC push button,   Bank 34)
+#    - uart_tx  : Y11  (JA Pmod pin 1,      Bank 13)
+#    - uart_rx  : AA11 (JA Pmod pin 2,      Bank 13)
+#    - LD0..LD3 : T22,T21,U22,U21 (status LEDs, Bank 33)
+#
+#  NOTE: Every other pin is intentionally left commented.
+#        Only uncomment a pin if it exists in your RTL top module.
+# ----------------------------------------------------------------------------
+
+# ----------------------------------------------------------------------------
+# Clock - 100 MHz onboard oscillator - Bank 13
+# Connect to your top-level port:  input clk
+# ----------------------------------------------------------------------------
+set_property PACKAGE_PIN Y9 [get_ports {clk}];
+set_property IOSTANDARD LVCMOS33 [get_ports {clk}];
+create_clock -period 10.000 -name clk [get_ports {clk}];
+
+# ----------------------------------------------------------------------------
+# Reset - BTNC centre push button - Bank 34
+# Connect to your top-level port:  input rst
+# Active HIGH when pressed
+# ----------------------------------------------------------------------------
+set_property PACKAGE_PIN P16 [get_ports {rst}];
+set_property IOSTANDARD LVCMOS18 [get_ports {rst}];
+
+# ----------------------------------------------------------------------------
+# UART - JA Pmod Header (Bank 13, LVCMOS33)
+# Connect a USB-UART Pmod (e.g. Digilent PmodUSBUART) to JA header
+#   uart_tx : FPGA transmits  -> JA pin 1 (Y11)
+#   uart_rx : FPGA receives   -> JA pin 2 (AA11)
+# Connect to your top-level ports: output uart_tx, input uart_rx
+# ----------------------------------------------------------------------------
+set_property PACKAGE_PIN Y11  [get_ports {uart_tx}];
+set_property IOSTANDARD LVCMOS33 [get_ports {uart_tx}];
+
+set_property PACKAGE_PIN AA11 [get_ports {uart_rx}];
+set_property IOSTANDARD LVCMOS33 [get_ports {uart_rx}];
+
+# ----------------------------------------------------------------------------
+# Status LEDs - Bank 33 (optional but useful for debug)
+#   LD0 = busy / computing
+#   LD1 = result ready
+#   LD2 = UART TX active
+#   LD3 = UART RX active
+# Connect to your top-level ports: output [3:0] led
+# Or connect individually: output ld0, ld1, ld2, ld3
+# Comment these out if you do not have LED ports in your RTL
+# ----------------------------------------------------------------------------
+set_property PACKAGE_PIN T22 [get_ports {led[0]}];
+set_property IOSTANDARD LVCMOS33 [get_ports {led[0]}];
+
+set_property PACKAGE_PIN T21 [get_ports {led[1]}];
+set_property IOSTANDARD LVCMOS33 [get_ports {led[1]}];
+
+set_property PACKAGE_PIN U22 [get_ports {led[2]}];
+set_property IOSTANDARD LVCMOS33 [get_ports {led[2]}];
+
+set_property PACKAGE_PIN U21 [get_ports {led[3]}];
+set_property IOSTANDARD LVCMOS33 [get_ports {led[3]}];
+
+# ----------------------------------------------------------------------------
+# IOSTANDARD - Bank-wide voltage assignments
+# These MUST remain at the bottom of the file so they are
+# evaluated AFTER all PACKAGE_PIN assignments above.
+# DO NOT change these - they match ZedBoard hardware.
+# ----------------------------------------------------------------------------
+
+# Bank 33 is fixed at 3.3V on ZedBoard
+set_property IOSTANDARD LVCMOS33 [get_ports -of_objects [get_iobanks 33]];
+
+# Bank 34 is set to 1.8V (buttons, some GPIO)
+set_property IOSTANDARD LVCMOS18 [get_ports -of_objects [get_iobanks 34]];
+
+# Bank 35 is set to 1.8V (switches, some GPIO)
+set_property IOSTANDARD LVCMOS18 [get_ports -of_objects [get_iobanks 35]];
+
+# Bank 13 is fixed at 3.3V on ZedBoard
+set_property IOSTANDARD LVCMOS33 [get_ports -of_objects [get_iobanks 13]];
